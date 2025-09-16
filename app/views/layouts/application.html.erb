@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>App</title>
+    <title>Autumn Bites - 秋のレシピ提案アプリ</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -11,9 +11,24 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <main class="container mx-auto mt-28 px-5 flex">
+  <body class="bg-orange-50 min-h-screen">
+    <!-- ヘッダー -->
+    <header class="bg-orange-600 text-white py-4 shadow-lg">
+      <div class="container mx-auto px-4">
+        <h1 class="text-3xl font-bold text-center">🍂 Autumn Bites</h1>
+        <p class="text-center text-orange-100 mt-2">秋の食材で作る美味しいレシピ</p>
+      </div>
+    </header>
+    
+    <main class="container mx-auto px-4 py-8">
       <%= yield %>
     </main>
+    
+    <!-- フッター -->
+    <footer class="bg-amber-800 text-white py-4 mt-12">
+      <div class="container mx-auto px-4 text-center">
+        <p>&copy; 2024 Autumn Bites</p>
+      </div>
+    </footer>
   </body>
 </html>

@@ -1,4 +1,104 @@
-<div>
-  <h1 class="font-bold text-4xl">Recipes#show</h1>
-  <p>Find me in app/views/recipes/show.html.erb</p>
+<div class="max-w-4xl mx-auto">
+  <!-- パンくずナビ -->
+  <nav class="mb-6">
+    <ol class="flex items-center space-x-2 text-sm text-gray-500">
+      <li><%= link_to "ホーム", root_path, class: "hover:text-orange-600" %></li>
+      <li><span class="mx-2">/</span></li>
+      <li class="text-gray-700"><%= @recipe.name %></li>
+    </ol>
+  </nav>
+
+  <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+    <!-- レシピ画像 -->
+    <% if @recipe.image_url.present? %>
+      <img src="<%= @recipe.image_url %>" alt="<%= @recipe.name %>" class="w-full h-64 md:h-80 object-cover">
+    <% else %>
+      <div class="w-full h-64 md:h-80 bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center">
+        <span class="text-white text-6xl">🍂</span>
+      </div>
+    <% end %>
+
+    <div class="p-6 md:p-8">
+      <!-- レシピタイトルと基本情報 -->
+      <div class="mb-6">
+        <h1 class="text-3xl font-bold text-gray-800 mb-4"><%= @recipe.name %></h1>
+        
+        <% if @recipe.description.present? %>
+          <p class="text-gray-600 mb-4"><%= @recipe.description %></p>
+        <% end %>
+        
+        <div class="flex flex-wrap items-center gap-4 text-sm">
+          <div class="flex items-center text-gray-600">
+            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+            </svg>
+            <span>調理時間: <%= @recipe.cooking_time.present? ? "#{@recipe.cooking_time}分" : "未設定" %></span>
+          </div>
+          <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full">
+            <%= @recipe.difficulty %>
+          </span>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8">
+        <!-- 材料 -->
+        <div>
+          <h2 class="text-2xl font-semibold text-gray-800 mb-4 flex items-center">
+            <span class="text-orange-600 mr-2">🥕</span>
+            材料
+          </h2>
+          <div class="bg-orange-50 p-4 rounded-lg">
+            <ul class="space-y-2">
+              <% @recipe.ingredient_list.each do |ingredient| %>
+                <li class="flex items-center">
+                  <span class="w-2 h-2 bg-orange-400 rounded-full mr-3"></span>
+                  <span class="text-gray-700"><%= ingredient %></span>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 作り方 -->
+        <div>
+          <h2 class="text-2xl font-semibold text-gray-800 mb-4 flex items-center">
+            <span class="text-orange-600 mr-2">👩‍🍳</span>
+            作り方
+          </h2>
+          <div class="bg-gray-50 p-4 rounded-lg">
+            <div class="prose prose-sm max-w-none">
+              <%= simple_format(@recipe.instructions, class: "text-gray-700 leading-relaxed") %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- アクションボタン -->
+      <div class="mt-8 pt-6 border-t border-gray-200">
+        <div class="flex flex-col sm:flex-row gap-4">
+          <%= link_to "レシピ一覧に戻る", root_path, 
+              class: "flex-1 text-center bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded transition duration-300" %>
+          <button onclick="window.print()" 
+                  class="flex-1 bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-6 rounded transition duration-300">
+            レシピを印刷
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+<!-- 印刷用スタイル -->
+<style media="print">
+  header, footer, nav, button {
+    display: none !important;
+  }
+  .container {
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .shadow-lg {
+    box-shadow: none !important;
+  }
+</style>
