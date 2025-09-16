@@ -1,0 +1,16 @@
+services:
+  web:
+    build: .
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3001 -b '0.0.0.0'"
+    volumes:
+      - .:/app
+      - bundle_cache:/usr/local/bundle
+    ports:
+      - "3001:3001"  # ここを3001に変更
+    stdin_open: true
+    tty: true
+    environment:
+      - RAILS_ENV=development
+
+volumes:
+  bundle_cache:

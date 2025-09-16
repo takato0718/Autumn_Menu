@@ -1,0 +1,89 @@
+require:
+  - rubocop-rails
+  - rubocop-performance
+
+AllCops:
+  TargetRubyVersion: 3.1
+  NewCops: enable
+  Exclude:
+    - 'vendor/**/*'
+    - 'db/schema.rb'
+    - 'db/migrate/*'
+    - 'config/environments/*'
+    - 'config/initializers/*'
+    - 'bin/*'
+    - 'node_modules/**/*'
+    - 'tmp/**/*'
+    - 'log/**/*'
+
+# 日本語コメントを許可
+Style/AsciiComments:
+  Enabled: false
+
+# 文字列リテラルの統一（シングルクォート推奨）
+Style/StringLiterals:
+  Enabled: true
+  EnforcedStyle: single_quotes
+
+# ハッシュの記法を統一
+Style/HashSyntax:
+  Enabled: true
+  EnforcedStyle: ruby19
+
+# メソッドの長さ制限を緩和
+Metrics/MethodLength:
+  Max: 20
+
+# クラスの長さ制限を緩和
+Metrics/ClassLength:
+  Max: 200
+
+# 行の長さ制限を緩和
+Layout/LineLength:
+  Max: 120
+  Exclude:
+    - 'config/routes.rb'
+
+# ブロックの長さ制限を緩和
+Metrics/BlockLength:
+  Exclude:
+    - 'config/routes.rb'
+    - 'db/seeds.rb'
+    - 'spec/**/*'
+
+# ファイルの長さ制限を緩和
+Metrics/ModuleLength:
+  Max: 200
+
+# ABCサイズ（複雑度）の制限を緩和
+Metrics/AbcSize:
+  Max: 20
+
+# 循環的複雑度の制限を緩和
+Metrics/CyclomaticComplexity:
+  Max: 8
+
+# 知覚的複雑度の制限を緩和
+Metrics/PerceivedComplexity:
+  Max: 8
+
+# ドキュメントの強制を無効化
+Style/Documentation:
+  Enabled: false
+
+# 凍結文字列リテラルの強制を無効化
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+# ブロック区切り文字の設定
+Style/BlockDelimiters:
+  Enabled: true
+  EnforcedStyle: line_count_based
+
+# Rails固有の設定
+Rails:
+  Enabled: true
+
+# パフォーマンス関連の設定
+Performance:
+  Enabled: true
