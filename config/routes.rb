@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  root 'recipes#index'
+
+  resources :recipes, only: %i[index show]
+
   get 'recipes/index'
   get 'recipes/show'
   get 'recipes/new'

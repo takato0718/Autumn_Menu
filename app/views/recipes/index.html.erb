@@ -1,4 +1,258 @@
-<div>
-  <h1 class="font-bold text-4xl">Recipes#index</h1>
-  <p>Find me in app/views/recipes/index.html.erb</p>
+<!-- ヒーローセクション -->
+<div class="text-center mb-12 fade-in-up">
+  <div class="mb-6">
+    <div class="inline-flex items-center justify-center space-x-2 text-6xl mb-4">
+      <span class="float-animation">🍂</span>
+      <span class="float-animation" style="animation-delay: 0.5s;">🍁</span>
+      <span class="float-animation" style="animation-delay: 1s;">🌰</span>
+    </div>
+    <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
+      秋の味覚を楽しもう
+    </h2>
+    <p class="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+      旬の食材を使った美味しいレシピをご提案します。<br>
+      お好みの食材を選んで、今日の献立を決めましょう。
+    </p>
+  </div>
 </div>
+
+<div class="mb-8">
+  <!-- 食材選択フォーム -->
+  <%= form_with url: recipes_path, method: :get, local: true, class: "autumn-card p-8 fade-in-up" do |f| %>
+    <div class="text-center mb-6">
+      <h3 class="text-2xl font-semibold text-gray-800 mb-2 flex items-center justify-center">
+        <span class="mr-2 text-3xl">🔍</span>
+        レシピを探す
+      </h3>
+      <p class="text-gray-600">お好みの食材を選んでください</p>
+    </div>
+    
+    <div class="flex flex-col md:flex-row gap-6 items-end">
+      <div class="flex-1">
+        <%= f.label :tag, "食材", class: "block text-lg font-medium text-gray-700 mb-3" %>
+        <%= f.select :tag, 
+            options_for_select([['すべて', '']] + @tags.map { |tag| [tag, tag] }, @selected_tag),
+            {}, 
+            { class: "autumn-input text-lg" } %>
+      </div>
+      <div>
+        <%= f.submit "レシピを探す", class: "autumn-button text-lg px-8 py-3" %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<!-- 選択された食材の表示 -->
+<% if @selected_tag.present? %>
+  <div class="mb-8 fade-in-up">
+    <div class="bg-gradient-to-r from-orange-100 to-amber-100 border-l-4 border-orange-500 p-6 rounded-lg shadow-md">
+      <div class="flex items-center">
+        <span class="text-3xl mr-3">🎯</span>
+        <div>
+          <p class="text-orange-800 text-lg">
+            <span class="font-semibold">選択された食材:</span> 
+            <span class="ingredient-tag ml-2"><%= @selected_tag %></span>
+          </p>
+          <p class="text-orange-700 text-sm mt-1">
+            <%= @recipes.count %>件のレシピが見つかりました
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<!-- 食材アイコン表示 -->
+<div class="mb-8 fade-in-up">
+  <div class="text-center">
+    <h3 class="text-xl font-semibold text-gray-800 mb-4">人気の秋食材</h3>
+    <div class="flex flex-wrap justify-center gap-4">
+      <% ingredient_icons = {
+        'きのこ' => '🍄',
+        'かぼちゃ' => '🎃', 
+        '栗' => '🌰',
+        'りんご' => '🍎',
+        'サンマ' => '🐟',
+        'さつまいも' => '🍠'
+      } %>
+      <% @tags.each do |tag| %>
+        <%= link_to recipes_path(tag: tag), 
+            class: "group flex flex-col items-center p-4 rounded-lg hover:bg-white hover:shadow-md transition-all duration-300 #{'bg-white shadow-md' if @selected_tag == tag}" do %>
+          <span class="text-4xl mb-2 group-hover:scale-110 transition-transform duration-300">
+            <%= ingredient_icons[tag] || '🍂' %>
+          </span>
+          <span class="text-sm font-medium text-gray-700 group-hover:text-orange-600">
+            <%= tag %>
+          </span>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<!-- レシピ統計 -->
+<% if @selected_tag.blank? %>
+  <div class="mb-8 fade-in-up">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="autumn-card p-6 text-center">
+        <div class="text-3xl mb-2">📊</div>
+        <div class="text-2xl font-bold text-orange-600"><%= @recipes.count %></div>
+        <div class="text-gray-600">総レシピ数</div>
+      </div>
+      <div class="autumn-card p-6 text-center">
+        <div class="text-3xl mb-2">⏱️</div>
+        <div class="text-2xl font-bold text-orange-600">
+          <%= @recipes.where.not(cooking_time: nil).average(:cooking_time)&.round || 0 %>分
+        </div>
+        <div class="text-gray-600">平均調理時間</div>
+      </div>
+      <div class="autumn-card p-6 text-center">
+        <div class="text-3xl mb-2">🌟</div>
+        <div class="text-2xl font-bold text-orange-600">
+          <%= @recipes.where(difficulty: '簡単').count %>
+        </div>
+        <div class="text-gray-600">簡単レシピ</div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<!-- レシピ一覧ヘッダー -->
+<div class="mb-6 fade-in-up">
+  <div class="flex items-center justify-between">
+    <h3 class="text-2xl font-bold text-gray-800 flex items-center">
+      <span class="mr-3 text-3xl">📖</span>
+      <% if @selected_ingredient.present? %>
+        「<%= @selected_ingredient %>」のレシピ
+      <% else %>
+        すべてのレシピ
+      <% end %>
+    </h3>
+    <% if @selected_ingredient.present? %>
+      <%= link_to recipes_path, 
+          class: "text-orange-600 hover:text-orange-700 font-medium flex items-center transition-colors duration-300" do %>
+        <span class="mr-1">🔄</span>
+        すべて表示
+      <% end %>
+    <% end %>
+  </div>
+</div>
+
+<!-- レシピ一覧 -->
+<% if @recipes.any? %>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 fade-in-up">
+    <% @recipes.each_with_index do |recipe, index| %>
+      <div class="autumn-card overflow-hidden group" style="animation-delay: <%= index * 0.1 %>s;">
+        <!-- レシピ画像 -->
+        <div class="relative overflow-hidden">
+          <% if recipe.image_url.present? %>
+            <img src="<%= recipe.image_url %>" alt="<%= recipe.name %>" 
+                 class="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-500">
+          <% else %>
+            <div class="w-full h-56 autumn-gradient flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+              <span class="text-white text-6xl drop-shadow-lg">🍂</span>
+            </div>
+          <% end %>
+          
+          <!-- 難易度バッジ -->
+          <div class="absolute top-4 right-4">
+            <span class="difficulty-badge <%= 
+              case recipe.difficulty
+              when '簡単' then 'difficulty-easy'
+              when '普通' then 'difficulty-normal'  
+              when '難しい' then 'difficulty-hard'
+              else 'difficulty-easy'
+              end
+            %>">
+              <%= recipe.difficulty %>
+            </span>
+          </div>
+        </div>
+        
+        <div class="p-6">
+          <!-- レシピタイトル -->
+          <h4 class="text-xl font-bold text-gray-800 mb-3 group-hover:text-orange-600 transition-colors duration-300">
+            <%= recipe.name %>
+          </h4>
+          
+          <!-- レシピ説明 -->
+          <% if recipe.description.present? %>
+            <p class="text-gray-600 text-sm mb-4 line-clamp-2 leading-relaxed">
+              <%= recipe.description %>
+            </p>
+          <% end %>
+          
+          <!-- 調理時間と統計 -->
+          <div class="flex items-center justify-between text-sm text-gray-500 mb-4">
+            <div class="flex items-center">
+              <svg class="w-4 h-4 mr-2 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+              </svg>
+              <span class="font-medium">
+                <%= recipe.cooking_time.present? ? "#{recipe.cooking_time}分" : "時間未設定" %>
+              </span>
+            </div>
+            <div class="flex items-center">
+              <span class="text-orange-500 mr-1">🥄</span>
+              <span><%= recipe.ingredient_list.length %>種類</span>
+            </div>
+          </div>
+          
+          <!-- 主な食材タグ -->
+          <div class="mb-6">
+            <p class="text-sm text-gray-600 mb-2 font-medium">主な食材:</p>
+            <div class="flex flex-wrap gap-2">
+              <% recipe.ingredient_list.first(4).each do |ingredient| %>
+                <span class="ingredient-tag text-xs">
+                  <%= ingredient.strip %>
+                </span>
+              <% end %>
+              <% if recipe.ingredient_list.length > 4 %>
+                <span class="text-gray-500 text-xs self-center">
+                  他<%= recipe.ingredient_list.length - 4 %>種類
+                </span>
+              <% end %>
+            </div>
+          </div>
+          
+          <!-- レシピ詳細ボタン -->
+          <%= link_to recipe_path(recipe), 
+              class: "block w-full text-center autumn-button group-hover:shadow-xl" do %>
+            <span class="flex items-center justify-center">
+              <span class="mr-2">📖</span>
+              レシピを見る
+            </span>
+          <% end %>
+        </div>
+      </p>
+    </div>
+  </div>
+<% end %>
+
+  </div>
+<% else %>
+  <!-- レシピが見つからない場合 -->
+  <div class="text-center py-16 fade-in-up">
+    <div class="autumn-card p-12 max-w-md mx-auto">
+      <div class="text-8xl mb-6 opacity-50">🍂</div>
+      <h3 class="text-2xl font-bold text-gray-700 mb-4">レシピが見つかりませんでした</h3>
+      <p class="text-gray-500 mb-8 leading-relaxed">
+        <% if @selected_ingredient.present? %>
+          「<%= @selected_ingredient %>」を使ったレシピはまだ登録されていません。<br>
+          他の食材もお試しください。
+        <% else %>
+          レシピがまだ登録されていません。
+        <% end %>
+      </p>
+      <div class="space-y-4">
+        <%= link_to "すべてのレシピを見る", recipes_path, 
+            class: "inline-block autumn-button" %>
+        <% if @selected_ingredient.present? %>
+          <br>
+          <%= link_to "食材選択に戻る", recipes_path, 
+              class: "inline-block text-orange-600 hover:text-orange-700 font-medium transition-colors duration-300" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>
