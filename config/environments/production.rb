@@ -79,11 +79,14 @@ Rails.application.configure do
   config.log_formatter = ::Logger::Formatter.new
 
   config.hosts.clear
+  config.host_authorization = { exclude: ->(request) { true } }
 
   config.consider_all_requests_local = true
   config.log_level = :debug
+  config.force_ssl = false
 
-  # config.force_ssl = false
+  config.active_support.report_deprecations = false
+  config.log_formatter = ::Logger::Formatter.new
 
   # config.hosts << "autumnmenu-production.up.railway.app"
   # config.hosts << /.*\.up\.railway\.app/
