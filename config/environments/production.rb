@@ -79,7 +79,7 @@ Rails.application.configure do
   config.log_formatter = ::Logger::Formatter.new
 
   config.hosts << "autumnmenu-production.up.railway.app"
-
+  config.hosts << /.*\.up\.railway\.app/
   
 
   # Use a different logger for distributed setups.
