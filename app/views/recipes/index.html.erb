@@ -29,9 +29,9 @@
     
     <div class="flex flex-col md:flex-row gap-6 items-end">
       <div class="flex-1">
-        <%= f.label :ingredient, "食材", class: "block text-lg font-medium text-gray-700 mb-3" %>
-        <%= f.select :ingredient, 
-            options_for_select([['すべて', '']] + @ingredients.map { |i| [i, i] }, @selected_ingredient),
+        <%= f.label :tag, "食材", class: "block text-lg font-medium text-gray-700 mb-3" %>
+        <%= f.select :tag, 
+            options_for_select([['すべて', '']] + @tags.map { |tag| [tag, tag] }, @selected_tag),
             {}, 
             { class: "autumn-input text-lg" } %>
       </div>
@@ -43,7 +43,7 @@
 </div>
 
 <!-- 選択された食材の表示 -->
-<% if @selected_ingredient.present? %>
+<% if @selected_tag.present? %>
   <div class="mb-8 fade-in-up">
     <div class="bg-gradient-to-r from-orange-100 to-amber-100 border-l-4 border-orange-500 p-6 rounded-lg shadow-md">
       <div class="flex items-center">
@@ -51,7 +51,7 @@
         <div>
           <p class="text-orange-800 text-lg">
             <span class="font-semibold">選択された食材:</span> 
-            <span class="ingredient-tag ml-2"><%= @selected_ingredient %></span>
+            <span class="ingredient-tag ml-2"><%= @selected_tag %></span>
           </p>
           <p class="text-orange-700 text-sm mt-1">
             <%= @recipes.count %>件のレシピが見つかりました
@@ -75,14 +75,14 @@
         'サンマ' => '🐟',
         'さつまいも' => '🍠'
       } %>
-      <% @ingredients.each do |ingredient| %>
-        <%= link_to recipes_path(ingredient: ingredient), 
-            class: "group flex flex-col items-center p-4 rounded-lg hover:bg-white hover:shadow-md transition-all duration-300 #{'bg-white shadow-md' if @selected_ingredient == ingredient}" do %>
+      <% @tags.each do |tag| %>
+        <%= link_to recipes_path(tag: tag), 
+            class: "group flex flex-col items-center p-4 rounded-lg hover:bg-white hover:shadow-md transition-all duration-300 #{'bg-white shadow-md' if @selected_tag == tag}" do %>
           <span class="text-4xl mb-2 group-hover:scale-110 transition-transform duration-300">
-            <%= ingredient_icons[ingredient] || '🍂' %>
+            <%= ingredient_icons[tag] || '🍂' %>
           </span>
           <span class="text-sm font-medium text-gray-700 group-hover:text-orange-600">
-            <%= ingredient %>
+            <%= tag %>
           </span>
         <% end %>
       <% end %>
@@ -91,7 +91,7 @@
 </div>
 
 <!-- レシピ統計 -->
-<% if @selected_ingredient.blank? %>
+<% if @selected_tag.blank? %>
   <div class="mb-8 fade-in-up">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <div class="autumn-card p-6 text-center">
@@ -129,10 +129,10 @@
       <% end %>
     </h3>
     <% if @selected_ingredient.present? %>
-      <%= link_to "すべて表示", recipes_path, 
+      <%= link_to recipes_path, 
           class: "text-orange-600 hover:text-orange-700 font-medium flex items-center transition-colors duration-300" do %>
         <span class="mr-1">🔄</span>
-        リセット
+        すべて表示
       <% end %>
     <% end %>
   </div>

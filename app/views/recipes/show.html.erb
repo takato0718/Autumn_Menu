@@ -90,90 +90,94 @@
       </div>
 
       <!-- メインコンテンツ -->
-      <div class="grid lg:grid-cols-5 gap-12">
-        <!-- 材料セクション -->
-        <div class="lg:col-span-2">
-          <div class="sticky top-8">
-            <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
-              <span class="text-orange-600 mr-3 text-4xl">🥕</span>
-              材料
-            </h2>
-            <div class="bg-gradient-to-br from-orange-50 to-amber-50 p-6 rounded-xl border border-orange-100">
-              <ul class="space-y-4">
-                <% @recipe.ingredient_list.each_with_index do |ingredient, index| %>
-                  <li class="flex items-start group">
-                    <span class="flex-shrink-0 w-6 h-6 bg-orange-500 text-white rounded-full flex items-center justify-center text-sm font-bold mr-4 mt-0.5 group-hover:bg-orange-600 transition-colors duration-300">
-                      <%= index + 1 %>
-                    </span>
-                    <span class="text-gray-700 font-medium leading-relaxed">
-                      <%= ingredient.strip %>
-                    </span>
-                  </li>
-                <% end %>
-              </ul>
-            </div>
-            
-            <!-- 印刷ボタン -->
-            <div class="mt-6">
-              <button onclick="window.print()" 
-                      class="w-full bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center">
-                <span class="mr-2">🖨️</span>
-                レシピを印刷
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- 作り方セクション -->
-        <div class="lg:col-span-3">
-          <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
-            <span class="text-orange-600 mr-3 text-4xl">👩‍🍳</span>
-            作り方
-          </h2>
-          <div class="bg-gradient-to-br from-gray-50 to-slate-50 p-8 rounded-xl border border-gray-100">
-            <div class="prose prose-lg max-w-none">
-              <% @recipe.instructions.split("\n").each_with_index do |step, index| %>
-                <% next if step.strip.empty? %>
-                <div class="mb-6 p-6 bg-white rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300">
-                  <div class="flex items-start">
-                    <span class="flex-shrink-0 w-8 h-8 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold mr-4 mt-1">
-                      <%= index + 1 %>
-                    </span>
-                    <div class="flex-1">
-                      <p class="text-gray-700 leading-relaxed text-lg">
-                        <%= step.strip %>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              <% end %>
-            </div>
-          </div>
+<div class="container mx-auto max-w-6xl px-4">
+  <div class="grid lg:grid-cols-5 gap-12">
+    <!-- 材料セクション -->
+    <div class="lg:col-span-2">
+      <div class="sticky top-8">
+        <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
+          <span class="text-orange-600 mr-3 text-4xl">🥕</span>
+          材料
+        </h2>
+        <div class="bg-gradient-to-br from-orange-50 to-amber-50 p-6 rounded-xl border border-orange-100">
+          <ul class="space-y-4">
+            <% @recipe.ingredient_list.each_with_index do |ingredient, index| %>
+              <li class="flex items-start group">
+                <span class="flex-shrink-0 w-6 h-6 bg-orange-500 text-white rounded-full flex items-center justify-center text-sm font-bold mr-4 mt-0.5 group-hover:bg-orange-600 transition-colors duration-300">
+                  <%= index + 1 %>
+                </span>
+                <span class="text-gray-700 font-medium leading-relaxed">
+                  <%= ingredient.strip %>
+                </span>
+              </li>
+            <% end %>
+          </ul>
         </div>
       </div>
+    </div>
 
-      <!-- アクションボタン -->
-      <div class="mt-12 pt-8 border-t border-gray-200">
-        <div class="flex flex-col sm:flex-row gap-6 justify-center">
-          <%= link_to root_path, 
-              class: "flex-1 max-w-xs mx-auto text-center bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white font-semibold py-4 px-8 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105" do %>
-            <span class="flex items-center justify-center">
-              <span class="mr-2">🏠</span>
-              レシピ一覧に戻る
-            </span>
+        <!-- 作り方セクション -->
+    <div class="lg:col-span-3">
+      <h2 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
+        <span class="text-orange-600 mr-3 text-4xl">👩‍🍳</span>
+        作り方
+      </h2>
+      <div class="bg-gradient-to-br from-gray-50 to-slate-50 p-8 rounded-xl border border-gray-100">
+        <div class="prose prose-lg max-w-none">
+          <% @recipe.instructions.split("\n").each_with_index do |step, index| %>
+            <% next if step.strip.empty? %>
+            <div class="mb-6 p-6 bg-white rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300">
+              <div class="flex items-start">
+                <span class="flex-shrink-0 w-8 h-8 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold mr-4 mt-1">
+                  <%= index + 1 %>
+                </span>
+                <div class="flex-1">
+                  <p class="text-gray-700 leading-relaxed text-lg">
+                    <%= step.strip %>
+                  </p>
+                </div>
+              </div>
+            </div>
           <% end %>
-          
-          <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" 
-                  class="flex-1 max-w-xs mx-auto autumn-button">
-            <span class="flex items-center justify-center">
-              <span class="mr-2">⬆️</span>
-              ページトップへ
-            </span>
-          </button>
         </div>
       </div>
     </div>
   </div>
+
+      <!-- アクションボタン -->
+      <div class="mt-12 pt-8 border-t border-gray-200">
+    <div class="flex flex-col sm:flex-row gap-6 justify-center">
+      <%= link_to root_path, 
+          class: "flex-1 max-w-xs mx-auto text-center bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105" do %>
+        <span class="flex items-center justify-center">
+          <span class="mr-2">🏠</span>
+          レシピ一覧に戻る
+        </span>
+      <% end %>
+      
+      <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" 
+              class="flex-1 max-w-xs mx-auto autumn-button">
+        <span class="flex items-center justify-center">
+          <span class="mr-2">⬆️</span>
+          ページトップへ
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Xシェアボタン（中央揃え） -->
+  <div class="mt-8 flex justify-center">
+    <%= link_to twitter_share_with_image_url(@recipe), 
+                target: "_blank", 
+                rel: "noopener noreferrer",
+                class: "inline-flex items-center gap-2 bg-gradient-to-r from-gray-800 to-black hover:from-black hover:to-gray-900 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105" do %>
+      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+      </svg>
+      Xでシェア
+    <% end %>
+  </div>
+</div>
   
   <!-- 関連レシピ提案 -->
   <div class="mt-16 fade-in-up">
@@ -234,57 +238,6 @@
   </div>
 </div>
 
-<!-- 印刷用の追加スタイル -->
-<style media="print">
-  .no-print, header, footer, nav, button, .sticky {
-    display: none !important;
-  }
-  
-  .container {
-    max-width: none !important;
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-  
-  .autumn-card {
-    box-shadow: none !important;
-    border: 1px solid #ddd !important;
-  }
-  
-  .grid {
-    display: block !important;
-  }
-  
-  .lg\:col-span-2, .lg\:col-span-3 {
-    width: 100% !important;
-    margin-bottom: 2rem !important;
-  }
-  
-  .bg-gradient-to-br, .bg-gradient-to-r, .autumn-gradient {
-    background: #f97316 !important;
-    color: white !important;
-  }
-  
-  h1 {
-    font-size: 2rem !important;
-    margin-bottom: 1rem !important;
-  }
-  
-  h2 {
-    font-size: 1.5rem !important;
-    margin-bottom: 1rem !important;
-    page-break-after: avoid;
-  }
-  
-  .prose p, .prose li {
-    font-size: 0.9rem !important;
-    line-height: 1.4 !important;
-  }
-  
-  img {
-    max-height: 200px !important;
-    object-fit: cover !important;
-  }
 </style>
               <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
             </svg>

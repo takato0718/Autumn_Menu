@@ -4,6 +4,9 @@
     <title>Autumn Bites - 秋のレシピ提案アプリ</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="description" content="秋の食材を使った美味しいレシピを提案するアプリ">
+    
+    <%= favicon_link_tag 'favicon.png', sizes: '16x16', type: 'image/png' %>
+    
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
@@ -30,7 +33,7 @@
         <%= link_to root_path, class: "block text-center hover:opacity-90 transition-opacity duration-300" do %>
           <h1 class="text-4xl md:text-5xl font-bold mb-2 tracking-wide">
             <span class="inline-block mr-3 text-5xl">🍂</span>
-            Autumn Bites
+            Autumn Menu
           </h1>
           <p class="text-orange-100 text-lg font-light tracking-wider">秋の食材で作る美味しいレシピ</p>
         <% end %>
