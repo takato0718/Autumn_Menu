@@ -31,7 +31,6 @@ class Recipe < ApplicationRecord
   #   def tag_list=(tag_string)
   #     self.tags = tag_string
   #   end
-
   # 食材リストを配列で取得
   def ingredient_list
     ingredients.split(',').map(&:strip)
