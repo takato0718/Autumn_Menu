@@ -80,13 +80,26 @@ Rails.application.configure do
 
   config.hosts.clear
   config.host_authorization = { exclude: ->(request) { true } }
-
-  config.consider_all_requests_local = true
-  config.log_level = :debug
+  
+  # SSL/HTTPS設定を無効化
   config.force_ssl = false
-
+  config.ssl_options = {}
+  
+  # 権限関連の設定
+  config.consider_all_requests_local = true
+  config.action_dispatch.show_exceptions = true
+  config.action_dispatch.show_detailed_exceptions = true
+  
+  # デバッグ設定
+  config.log_level = :debug
   config.active_support.report_deprecations = false
+  
+  # セキュリティ設定を緩和
+  config.web_console.allowed_ips = %w(0.0.0.0/0 ::/0)
+  
+  # 基本設定
   config.log_formatter = ::Logger::Formatter.new
+  
 
   # config.hosts << "autumnmenu-production.up.railway.app"
   # config.hosts << /.*\.up\.railway\.app/
