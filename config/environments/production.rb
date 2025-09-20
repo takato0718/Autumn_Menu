@@ -46,7 +46,8 @@ Rails.application.configure do
   # config.action_cable.allowed_request_origins = [ "http://example.com", /http:\/\/example.*/ ]
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  # config.force_ssl = true
+  # Railway では HTTPS を自動で処理するため、強制しない
+  config.force_ssl = false
 
   # Include generic and useful information about system operation, but avoid logging too much
   # information to avoid inadvertent exposure of personally identifiable information (PII).
@@ -60,7 +61,7 @@ Rails.application.configure do
 
   # Use a real queuing backend for Active Job (and separate queues per environment).
   # config.active_job.queue_adapter     = :resque
-  # config.active_job.queue_name_prefix = "app_production"
+  # config.active_job.queue_name_prefix = "autumnmenu_production"
 
   config.action_mailer.perform_caching = false
 
@@ -78,43 +79,21 @@ Rails.application.configure do
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
 
-  config.hosts.clear
-  config.host_authorization = { exclude: ->(request) { true } }
-  
-  # SSL/HTTPS設定を無効化
-  config.force_ssl = false
-  config.ssl_options = {}
-  
-  # 権限関連の設定
-  config.consider_all_requests_local = true
-  config.action_dispatch.show_exceptions = true
-  config.action_dispatch.show_detailed_exceptions = true
-  
-  # デバッグ設定
-  config.log_level = :debug
-  config.active_support.report_deprecations = false
-  
-  # セキュリティ設定を緩和
-  config.web_console.allowed_ips = %w(0.0.0.0/0 ::/0)
-  
-  # 基本設定
-  config.log_formatter = ::Logger::Formatter.new
-  
-
-  # config.hosts << "autumnmenu-production.up.railway.app"
-  # config.hosts << /.*\.up\.railway\.app/
-  # config.hosts << /.*\.railway\.app/
-
   # Use a different logger for distributed setups.
   # require "syslog/logger"
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new "app-name")
 
   if ENV["RAILS_LOG_TO_STDOUT"].present?
-    logger           = ActiveSupport::Logger.new(STDOUT)
+    logger           = ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
     logger.formatter = config.log_formatter
-    config.logger    = ActiveSupport::TaggedLogging.new(logger)
+    config.logger    = logger
   end
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # Railway 用の設定
+  config.hosts.clear
+  config.public_file_server.enabled = true
+  config.assets.compile = true
 end
