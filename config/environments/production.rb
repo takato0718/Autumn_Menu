@@ -99,6 +99,9 @@ Rails.application.configure do
   # config.hosts = nil
   # config.public_file_server.enabled = true
   # config.assets.compile = true
+  if ENV['RAILWAY_PUBLIC_DOMAIN'].present?
+    config.hosts << ENV['RAILWAY_PUBLIC_DOMAIN']
+  end
 
   # puts "=== HOST CONFIG DEBUG ==="
   # puts "config.hosts: #{config.hosts.inspect}"
