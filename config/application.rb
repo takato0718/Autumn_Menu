@@ -11,7 +11,7 @@ module App
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
 
-    config.hosts = nil if ENV['RAILWAY_ENVIRONMENT_NAME'].present?
+    # config.hosts = nil if ENV['RAILWAY_ENVIRONMENT_NAME'].present?
 
     # Configuration for the application, engines, and railties goes here.
     #
