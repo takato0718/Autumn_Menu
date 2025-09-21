@@ -93,6 +93,7 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # Railway 用の設定
+  config.hosts << "autumnmenu-production.up.railway.app"
   # config.hosts.clear
   # config.hosts = []
   # config.hosts = nil
