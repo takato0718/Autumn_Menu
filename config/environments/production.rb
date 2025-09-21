@@ -93,13 +93,13 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # Railway 用の設定
-  config.hosts.clear
-  config.hosts = []
-  config.hosts = nil
-  config.public_file_server.enabled = true
-  config.assets.compile = true
+  # config.hosts.clear
+  # config.hosts = []
+  # config.hosts = nil
+  # config.public_file_server.enabled = true
+  # config.assets.compile = true
 
-  puts "=== HOST CONFIG DEBUG ==="
-  puts "config.hosts: #{config.hosts.inspect}"
-  puts "========================="
+  # puts "=== HOST CONFIG DEBUG ==="
+  # puts "config.hosts: #{config.hosts.inspect}"
+  # puts "========================="
 end
