@@ -27,4 +27,4 @@ COPY . /app
 EXPOSE 3001
 
 # Rails サーバーを起動するコマンド（ポート3001指定）
-CMD ["rails", "server", "-b", "0.0.0.0", "-p", "3001"]
+CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0", "-p", "3001", "-e", "production"]
