@@ -41,6 +41,17 @@ workers ENV.fetch("WEB_CONCURRENCY", 1)
 
 preload_app!
 
+on_worker_boot do
+    # データベース接続のみ（作成はしない）
+  ActiveRecord::Base.establish_connection if defined?(ActiveRecord)
+end
+
+if ENV['RAILS_ENV'] == 'production'
+  before_fork do
+    ENV['DISABLE_DATABASE_ENVIRONMENT_CHECK'] = '1'
+  end
+end
+
 # Allow puma to be restarted by `bin/rails restart` command.
 plugin :tmp_restart
 
