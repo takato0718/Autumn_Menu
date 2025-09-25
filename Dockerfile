@@ -28,5 +28,8 @@ RUN RAILS_ENV=production bundle exec rails assets:precompile || true
 # ポート3001を公開
 EXPOSE 3001
 
+ENV DISABLE_DATABASE_ENVIRONMENT_CHECK=1
+ENV SKIP_DATABASE_CREATION=1
+
 # Rails サーバーを起動するコマンド（ポート3001指定）
-CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
+CMD ["sh", "-c", "DISABLE_DATABASE_ENVIRONMENT_CHECK=1 SKIP_DATABASE_CREATION=1 bundle exec puma -C config/puma.rb"]
