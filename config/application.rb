@@ -18,9 +18,11 @@ module App
     # These settings can be overridden in specific environments using the files
     # in config/environments, which are processed later.
     #
-    if Rails.env.production?
-      config.active_record.database_tasks = false
-    end
+
+    # if Rails.env.production?
+    #   config.active_record.database_tasks = false
+    # end
+    
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
   end
