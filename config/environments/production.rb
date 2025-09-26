@@ -103,6 +103,9 @@ Rails.application.configure do
     config.hosts << ENV['RAILWAY_PUBLIC_DOMAIN']
   end
 
+  config.consider_all_requests_local = true  # エラー詳細を表示
+  config.log_level = :debug
+
   # puts "=== HOST CONFIG DEBUG ==="
   # puts "config.hosts: #{config.hosts.inspect}"
   # puts "========================="
