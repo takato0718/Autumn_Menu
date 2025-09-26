@@ -31,5 +31,9 @@ EXPOSE 3001
 ENV DISABLE_DATABASE_ENVIRONMENT_CHECK=1
 ENV SKIP_DATABASE_CREATION=1
 
+RUN bundle config --delete path
+RUN bundle config --delete without
+RUN bundle install --no-cache
+
 # Rails サーバーを起動するコマンド（ポート3001指定）
 CMD ["sh", "-c", "DISABLE_DATABASE_ENVIRONMENT_CHECK=1 SKIP_DATABASE_CREATION=1 bundle exec puma -C config/puma.rb"]
