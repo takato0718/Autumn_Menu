@@ -78,16 +78,19 @@ Rails.application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
+  config.logger = ActiveSupport::Logger.new(STDOUT)
 
   # Use a different logger for distributed setups.
   # require "syslog/logger"
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new "app-name")
 
-  if ENV["RAILS_LOG_TO_STDOUT"].present?
-    logger           = ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
-    logger.formatter = config.log_formatter
-    config.logger    = logger
-  end
+
+
+  # if ENV["RAILS_LOG_TO_STDOUT"].present?
+  #   logger           = ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
+  #   logger.formatter = config.log_formatter
+  #   config.logger    = logger
+  # end
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
@@ -104,7 +107,7 @@ Rails.application.configure do
   end
 
   config.consider_all_requests_local = true  # エラー詳細を表示
-  config.log_level = :debug
+  # config.log_level = :debug
 
   # puts "=== HOST CONFIG DEBUG ==="
   # puts "config.hosts: #{config.hosts.inspect}"
