@@ -23,7 +23,7 @@ RUN bundle install
 # アプリケーションのファイルをすべてコピー
 COPY . /app
 
-RUN RAILS_ENV=production bundle exec rails assets:precompile || true
+RUN RAILS_ENV=production bundle exec rails assets:precompile
 
 # ポート3001を公開
 EXPOSE 3001
