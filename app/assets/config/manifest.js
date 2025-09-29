@@ -3,4 +3,5 @@
 //= link_directory ../stylesheets .css
 
 //= link_tree ../../../vendor/javascript .js
-//= link application.js//= link favicon.png
+//= link application.js
+//= link favicon.png
